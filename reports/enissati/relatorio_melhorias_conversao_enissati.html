@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversion Improvement Report | Enissati Cosmetics</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap');
+
+    :root {
+      --yellow: #E4FE52;
+      --orange: #F3673E;
+      --beige: #F9EDE3;
+      --blue: #ADD9FF;
+      --pink: #FFB2B5;
+      --black: #111111;
+      --dark-card: #222222;
+      --white: #FFFFFF;
+      --gray-text: #444444;
+      --gray-mid: #777777;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Manrope', 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .section-orange,
+    .section-beige,
+    .section-dark,
+    footer {
+      padding: 80px 8%;
+    }
+
+    .section-orange {
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .section-beige {
+      background: var(--beige);
+      color: var(--gray-text);
+    }
+
+    .section-dark,
+    footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.86);
+    }
+
+    .section-divider {
+      height: 6px;
+      background: var(--orange);
+    }
+
+    .section-divider.yellow {
+      background: var(--yellow);
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 18px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .section-orange .eyebrow {
+      color: rgba(255,255,255,0.72);
+    }
+
+    .section-beige .eyebrow {
+      color: var(--orange);
+    }
+
+    .section-dark .eyebrow,
+    footer .eyebrow {
+      color: var(--yellow);
+    }
+
+    h1, h2, h3, h4, p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 0.98;
+      font-weight: 900;
+      max-width: 980px;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      line-height: 1.02;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .section-orange h2 {
+      color: var(--white);
+    }
+
+    .section-beige h2 {
+      color: var(--orange);
+    }
+
+    .section-dark h2,
+    footer h2 {
+      color: var(--yellow);
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      line-height: 1.2;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    p,
+    li {
+      font-size: 1rem;
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .section-orange p {
+      color: rgba(255,255,255,0.84);
+    }
+
+    .section-beige p,
+    .section-beige li {
+      color: var(--gray-text);
+    }
+
+    .section-dark p,
+    .section-dark li,
+    footer p {
+      color: rgba(255,255,255,0.82);
+    }
+
+    strong {
+      font-weight: 900;
+    }
+
+    .section-orange strong,
+    .section-dark strong,
+    footer strong {
+      color: var(--yellow);
+    }
+
+    .section-beige strong {
+      color: var(--orange);
+    }
+
+    .cover-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .cover-logo-text {
+      font-size: 1.2rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .cover-logo-text span {
+      color: var(--yellow);
+    }
+
+    .cover-logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: var(--orange);
+      font-size: 0.85rem;
+      font-weight: 900;
+      text-transform: lowercase;
+    }
+
+    .hero-subtitle {
+      max-width: 760px;
+      margin-top: 24px;
+      font-size: 1.08rem;
+    }
+
+    .cover-numbers,
+    .kpi-grid,
+    .cards-grid,
+    .proj-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .cover-numbers {
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 42px;
+    }
+
+    .kpi-grid {
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 28px;
+    }
+
+    .cards-grid {
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 32px;
+    }
+
+    .proj-grid {
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 30px;
+    }
+
+    .cover-stat,
+    .kpi-card,
+    .action-card,
+    .proj-card {
+      border-radius: 16px;
+    }
+
+    .cover-stat {
+      padding: 22px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .cover-stat-value {
+      display: block;
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .cover-stat-label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .kpi-card {
+      padding: 22px;
+      border-top: 6px solid var(--orange);
+    }
+
+    .section-beige .kpi-card {
+      background: var(--white);
+      box-shadow: 0 10px 30px rgba(17,17,17,0.05);
+    }
+
+    .section-dark .kpi-card {
+      background: var(--dark-card);
+    }
+
+    .kpi-card.orange { border-top-color: var(--orange); }
+    .kpi-card.yellow { border-top-color: var(--yellow); }
+    .kpi-card.blue { border-top-color: var(--blue); }
+    .kpi-card.pink { border-top-color: var(--pink); }
+
+    .kpi-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 12px;
+    }
+
+    .section-dark .kpi-label {
+      color: rgba(255,255,255,0.55);
+    }
+
+    .kpi-value {
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 12px;
+    }
+
+    .section-dark .kpi-value {
+      color: var(--white);
+    }
+
+    .kpi-note {
+      font-size: 0.96rem;
+      line-height: 1.55;
+    }
+
+    .kpi-badge {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: var(--black);
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .kpi-badge.down {
+      background: var(--pink);
+    }
+
+    .insight-box,
+    .insight-box-beige,
+    .cta-box {
+      border-radius: 20px;
+      padding: 24px;
+      margin-top: 26px;
+    }
+
+    .insight-box {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      background: rgba(228,254,82,0.07);
+      border: 1px solid rgba(228,254,82,0.3);
+    }
+
+    .insight-box-beige {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      background: rgba(243,103,62,0.07);
+      border: 1px solid rgba(243,103,62,0.2);
+    }
+
+    .insight-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .action-card {
+      padding: 24px;
+      background: var(--white);
+      box-shadow: 0 10px 30px rgba(17,17,17,0.05);
+    }
+
+    .action-card p + p {
+      margin-top: 12px;
+    }
+
+    .dark-list {
+      display: grid;
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .dark-item {
+      padding: 22px 24px;
+      border-radius: 16px;
+      background: var(--dark-card);
+      border-left: 6px solid var(--yellow);
+    }
+
+    .dark-item p + p {
+      margin-top: 8px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .timeline-step {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 18px;
+      align-items: start;
+      padding: 20px 22px;
+      border-radius: 16px;
+      background: var(--white);
+      box-shadow: 0 10px 30px rgba(17,17,17,0.05);
+    }
+
+    .timeline-step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: var(--white);
+      font-size: 1.3rem;
+      font-weight: 900;
+    }
+
+    .timeline-step h3,
+    .action-card h3,
+    .proj-card h3,
+    .dark-item h3 {
+      color: inherit;
+    }
+
+    .proj-card {
+      padding: 24px;
+      min-height: 260px;
+    }
+
+    .proj-card.conservador,
+    .proj-card.agressivo {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(17,17,17,0.12);
+    }
+
+    .proj-card.recomendado {
+      background: var(--yellow);
+      color: var(--black);
+      transform: translateY(-8px);
+      box-shadow: 0 22px 40px rgba(17,17,17,0.15);
+    }
+
+    .proj-tag {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.16);
+      color: var(--white);
+    }
+
+    .proj-card.recomendado .proj-tag {
+      background: rgba(17,17,17,0.08);
+      color: var(--black);
+    }
+
+    .proj-title {
+      font-size: 1.3rem;
+      line-height: 1.1;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .proj-card p + p {
+      margin-top: 10px;
+    }
+
+    .cta-box {
+      background: var(--yellow);
+      color: var(--black);
+    }
+
+    .cta-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .cta-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .cta-stat {
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(17,17,17,0.08);
+    }
+
+    .cs-val {
+      display: block;
+      font-size: 1.7rem;
+      line-height: 1;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .cs-lbl {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: rgba(17,17,17,0.75);
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 18px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      align-items: end;
+    }
+
+    .footer-note {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.9rem;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 1024px) {
+      .cover-numbers,
+      .kpi-grid,
+      .cards-grid,
+      .proj-grid,
+      .cta-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .section-orange,
+      .section-beige,
+      .section-dark,
+      footer {
+        padding: 60px 6%;
+      }
+
+      .cover-numbers,
+      .kpi-grid,
+      .cards-grid,
+      .proj-grid,
+      .cta-stats,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-step {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="section-orange">
+    <div class="container">
+      <div class="cover-logo">
+        <span class="cover-logo-text"><span>MO</span>CA</span>
+        <span class="cover-logo-badge">lab</span>
+      </div>
+      <div class="eyebrow">Executive Conversion Report</div>
+      <h1>What Enissati needs to adjust on its pages to sell more without losing its premium positioning</h1>
+      <p class="hero-subtitle">This report summarizes the main improvement areas across Enissati's pages, focusing on <strong>offer clarity</strong>, <strong>objection reduction</strong>, <strong>proof of transformation</strong> and <strong>stronger purchase intent throughout the journey</strong>.</p>
+
+      <div class="cover-numbers">
+        <div class="cover-stat">
+          <span class="cover-stat-value">6</span>
+          <span class="cover-stat-label">Core priorities</span>
+        </div>
+        <div class="cover-stat">
+          <span class="cover-stat-value">3</span>
+          <span class="cover-stat-label">Critical above-the-fold fixes</span>
+        </div>
+        <div class="cover-stat">
+          <span class="cover-stat-value">4</span>
+          <span class="cover-stat-label">Trust and proof blocks</span>
+        </div>
+        <div class="cover-stat">
+          <span class="cover-stat-value">90</span>
+          <span class="cover-stat-label">Days for ideal execution</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-beige">
+    <div class="container">
+      <div class="eyebrow">🍃 Diagnosis</div>
+      <h2>The core issue is not lack of content. It is conversion architecture.</h2>
+      <p>Enissati already has a strong visual base, relevant technical material, reviews, videos, comparisons and a premium identity. The problem is that the pages still behave more like an <strong>organized showcase</strong> than a <strong>decision page</strong>. In other words, the visitor finds information, but does not always find a clear persuasive path to purchase.</p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card orange">
+          <div class="kpi-label">Current situation</div>
+          <div class="kpi-value">Strong base</div>
+          <div class="kpi-note">The existing material is enough to build significantly stronger pages without reinventing the brand.</div>
+        </div>
+        <div class="kpi-card yellow">
+          <div class="kpi-label">Main bottleneck</div>
+          <div class="kpi-value">Low sales pressure</div>
+          <div class="kpi-note">The page does not drive decision-making strongly enough at the top or throughout the scroll.</div>
+        </div>
+        <div class="kpi-card blue">
+          <div class="kpi-label">Current risk</div>
+          <div class="kpi-value">Dilution</div>
+          <div class="kpi-note">Benefits, mechanism, proof and CTA exist, but they appear diluted and without strong commercial hierarchy.</div>
+        </div>
+        <div class="kpi-card pink">
+          <div class="kpi-label">Opportunity</div>
+          <div class="kpi-value">More conversion</div>
+          <div class="kpi-note">The upside is in reorganizing the sales narrative, not just adding isolated visual triggers.</div>
+        </div>
+      </div>
+
+      <div class="insight-box-beige">
+        <div class="insight-icon">🎯</div>
+        <div class="insight-text">
+          The goal should not be to make the page simply feel “more promotional.” The goal is to make the visitor understand <strong>faster</strong> what the product solves, why it works, who it has already worked for and why it is worth buying now.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section-dark">
+    <div class="container">
+      <div class="eyebrow">Priority 01</div>
+      <h2>Strengthen the hero to turn interest into real purchase intent</h2>
+      <p>Right now, the top of the page informs the product, but it does not sell the transformation strongly enough. The product name and price alone do not do the full job. The hero needs to answer immediately: <strong>what this product delivers</strong>, <strong>who it is for</strong> and <strong>why it is worth acting now</strong>.</p>
+
+      <div class="dark-list">
+        <div class="dark-item">
+          <h3>What needs to change</h3>
+          <p>Add a benefit-driven headline, with a short subheadline explaining the core transformation. The top section needs to be faster to read and more commercially direct.</p>
+        </div>
+        <div class="dark-item">
+          <h3>Why it matters</h3>
+          <p>A large share of drop-off happens before the scroll. If the visitor does not see immediate value, they do not continue with enough attention to discover the rest of the page.</p>
+        </div>
+        <div class="dark-item">
+          <h3>What should appear together</h3>
+          <p>Rating, trust proof, core benefits, guarantee and a visually dominant CTA need to be clearly grouped above the fold.</p>
+        </div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-icon">💡</div>
+        <div class="insight-text">
+          The hero needs to stop being only the place where purchase is possible and become the place where purchase starts to make sense.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider yellow"></div>
+
+  <section class="section-beige">
+    <div class="container">
+      <div class="eyebrow">🍃 Priority 02</div>
+      <h2>Build a more explicit transformation narrative</h2>
+      <p>The pages need to show more clearly the starting point, the desired outcome and the path between the two. When that is not obvious, the product may look good, but not necessarily indispensable.</p>
+
+      <div class="cards-grid">
+        <div class="action-card">
+          <h3>Show the problem in a recognizable way</h3>
+          <p>The visitor needs to quickly identify with the pain point or the result they want. This can be done with more specific copy, stronger visuals and clearer “who it is for” blocks.</p>
+        </div>
+        <div class="action-card">
+          <h3>Show the result in a tangible way</h3>
+          <p>Before-and-after proof, real usage evidence and expected-outcome descriptions need to move higher in importance on the page. The transformation should stop being implicit and become the protagonist.</p>
+        </div>
+        <div class="action-card">
+          <h3>Show the timeline of perceived value</h3>
+          <p>A simple timeline helps reduce anxiety and align expectations. The visitor better understands when they may start to notice a difference and what tends to improve over time.</p>
+        </div>
+      </div>
+
+      <div class="insight-box-beige">
+        <div class="insight-icon">📈</div>
+        <div class="insight-text">
+          The more concrete the promised transformation is, the smaller the gap tends to be between curiosity and decision.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section-dark">
+    <div class="container">
+      <div class="eyebrow">Priority 03</div>
+      <h2>Translate the technical side into benefits that are easier to understand</h2>
+      <p>Enissati already presents ingredients, differentiators and technical content. That is an important asset. The point is that this material can still be translated into language that is more decision-oriented. Technical information alone educates; well-translated technical information sells.</p>
+
+      <div class="dark-list">
+        <div class="dark-item">
+          <h3>What needs to change</h3>
+          <p>Each active ingredient, differentiator or feature should connect directly to a functional and noticeable benefit. The visitor needs to understand “what this does for me” without effort.</p>
+        </div>
+        <div class="dark-item">
+          <h3>Why it matters</h3>
+          <p>When the page demands too much interpretation, cognitive load goes up. The higher the cognitive load, the lower the conversion rate.</p>
+        </div>
+        <div class="dark-item">
+          <h3>How to apply it</h3>
+          <p>Turn technical sections into visual cards, elegant comparisons, mechanism blocks and copy that connects science with perceived results.</p>
+        </div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-icon">🔬</div>
+        <div class="insight-text">
+          Technical content should still exist, but with a clearer role: <strong>reduce objections</strong>, <strong>reinforce superiority</strong> and <strong>validate the promise made at the top</strong>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider yellow"></div>
+
+  <section class="section-beige">
+    <div class="container">
+      <div class="eyebrow">🍃 Priority 04</div>
+      <h2>Move social proof up and curate it more effectively</h2>
+      <p>Reviews, videos and real-use evidence already exist, but they are still underused in terms of placement and impact. Social proof needs to appear earlier, with stronger curation and a focus on the most convincing outcomes.</p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="timeline-step-num">01</div>
+          <div>
+            <h3>Bring proof closer to the top</h3>
+            <p>Ratings, customer volume, short testimonial excerpts and real images should appear early enough to reinforce trust before intent cools down.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-step-num">02</div>
+          <div>
+            <h3>Curate the strongest cases</h3>
+            <p>Not every review carries the same weight. The strongest ones show concrete change, usage context and confidence in the recommendation.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-step-num">03</div>
+          <div>
+            <h3>Separate proof by credibility type</h3>
+            <p>It is worth structuring end-customer proof, visual-result proof and professional proof more clearly. Each one addresses a different type of objection.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-box-beige">
+        <div class="insight-icon">🧠</div>
+        <div class="insight-text">
+          Visitors tend to trust more when they see other people like them achieving the result they want.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section-dark">
+    <div class="container">
+      <div class="eyebrow">Priority 05</div>
+      <h2>Repeat the CTA in the right places and reduce friction at decision time</h2>
+      <p>Many pages lose conversion because the CTA is too concentrated at the top. When the visitor becomes convinced further down, they have to mentally return to the beginning to decide. That creates unnecessary friction.</p>
+
+      <div class="dark-list">
+        <div class="dark-item">
+          <h3>Where to repeat the CTA</h3>
+          <p>After the core benefits, after the mechanism block, after social proof and near the end of the page.</p>
+        </div>
+        <div class="dark-item">
+          <h3>What should accompany the CTA</h3>
+          <p>Guarantee, payment security, delivery details, operational information and any commercial incentives need to stay close to the button to reduce purchase anxiety.</p>
+        </div>
+        <div class="dark-item">
+          <h3>Why it matters</h3>
+          <p>Each major page block should push the visitor toward the next action. If the action does not reappear, persuasive momentum dissipates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider yellow"></div>
+
+  <section class="section-beige">
+    <div class="container">
+      <div class="eyebrow">🍃 Priority 06</div>
+      <h2>Strengthen trust and authority more visibly</h2>
+      <p>The brand already communicates sophistication, but sophistication alone does not remove objections. The page needs to communicate more clearly that the purchase is safe, the formula is trustworthy and there is a professional context behind the product.</p>
+
+      <div class="cards-grid">
+        <div class="action-card">
+          <h3>More explicit guarantee</h3>
+          <p>The guarantee needs to appear as an argument, not just as hidden information. This reduces perceived risk and increases comfort in trying the product.</p>
+        </div>
+        <div class="action-card">
+          <h3>More tangible authority</h3>
+          <p>Results, professional context, usage across different profiles and proof of consistency need to be shown more clearly across the page.</p>
+        </div>
+        <div class="action-card">
+          <h3>Operational trust</h3>
+          <p>Delivery, secure payment, support and purchase policy should be visible at the moments of highest intent, not only in the footer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section-orange">
+    <div class="container">
+      <div class="eyebrow">Execution plan</div>
+      <h2>Recommended implementation order</h2>
+      <p>The most efficient path is to tackle first what changes page interpretation and decision-making. After that, it is worth deepening proof, refining mechanisms and consolidating authority.</p>
+
+      <div class="proj-grid">
+        <div class="proj-card conservador">
+          <span class="proj-tag">Phase 1</span>
+          <div class="proj-title">Restructure the top of the page and the offer</div>
+          <p>Rewrite the headline, subheadline, visible benefits, trust grouping and primary button.</p>
+          <p><strong>Goal:</strong> increase clarity and intent above the fold.</p>
+        </div>
+
+        <div class="proj-card recomendado">
+          <span class="proj-tag">Phase 2</span>
+          <div class="proj-title">Move proof and value explanation up</div>
+          <p>Reorganize social proof, before-and-after content, mechanism, benefit cards and CTA repetition in the right blocks.</p>
+          <p><strong>Goal:</strong> reduce objections and sustain the decision throughout the scroll.</p>
+        </div>
+
+        <div class="proj-card agressivo">
+          <span class="proj-tag">Phase 3</span>
+          <div class="proj-title">Improve authority and commercial refinement</div>
+          <p>Strengthen guarantee, professional context, trust signals, final FAQ content and complementary optimizations.</p>
+          <p><strong>Goal:</strong> increase trust, consistency and closing rate.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider yellow"></div>
+
+  <section class="section-dark">
+    <div class="container">
+      <div class="eyebrow">Conclusion</div>
+      <h2>Owner-level decision summary</h2>
+      <p>Enissati does not need to abandon its premium positioning to sell more. What it needs is to make its pages <strong>more objective, more persuasive and more decision-oriented</strong>. The most meaningful gain will come from a page that presents the promise better, proves the transformation better, explains the product rationale better and asks for the purchase at the right moments.</p>
+
+      <div class="cta-box">
+        <div class="cta-title">Executive summary</div>
+        <div class="cta-stats">
+          <div class="cta-stat">
+            <span class="cs-val">Hero</span>
+            <span class="cs-lbl">Clearer, more sales-driven and more benefit-oriented</span>
+          </div>
+          <div class="cta-stat">
+            <span class="cs-val">Proof</span>
+            <span class="cs-lbl">More visible, earlier and better curated</span>
+          </div>
+          <div class="cta-stat">
+            <span class="cs-val">CTA</span>
+            <span class="cs-lbl">More repeated, more contextual and with less friction</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-box" style="margin-top: 24px;">
+        <div class="insight-icon">📊</div>
+        <div class="insight-text">
+          If Enissati organizes the page journey better, perceived value rises, uncertainty falls and the conversion rate tends to respond far more consistently than it would from cosmetic changes alone.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <div class="eyebrow">Moca Lab</div>
+        <h2 style="margin-bottom: 12px;">Conversion improvement report for Enissati Cosmetics</h2>
+        <p>Executive HTML document structured for presentation to the brand decision-maker.</p>
+        <p class="footer-note">Created on March 31, 2026 · Focus: practical page improvements to increase conversion without losing brand consistency.</p>
+      </div>
+      <div>
+        <p><strong>Deliverable:</strong> visual HTML report</p>
+        <p><strong>Format:</strong> ready to open in the browser</p>
+        <p><strong>Use:</strong> strategic alignment and execution prioritization</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
