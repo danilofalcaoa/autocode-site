@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moca Lab — Relatório Rafael Odone</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --yellow:    #E4FE52;
+  --orange:    #F3673E;
+  --beige:     #F9EDE3;
+  --blue:      #ADD9FF;
+  --pink:      #FFB2B5;
+  --black:     #111111;
+  --dark-card: #222222;
+  --white:     #FFFFFF;
+  --gray-text: #444444;
+  --gray-mid:  #777777;
+}
+
+body { font-family: 'Manrope', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+.section-orange { background: var(--orange); color: var(--white); padding: 80px 8%; }
+.section-beige { background: var(--beige); color: var(--gray-text); padding: 80px 8%; }
+.section-dark { background: var(--black); color: var(--white); padding: 80px 8%; }
+
+.section-divider { height: 6px; background: var(--orange); }
+.section-divider.yellow { background: var(--yellow); }
+
+.inner { max-width: 1000px; margin: 0 auto; }
+
+/* Typo */
+.section-orange .eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 12px; display: block; }
+.section-orange .sec-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--white); margin-bottom: 16px; line-height: 1.1; }
+.section-orange .sec-desc { font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 48px; max-width: 600px; }
+
+.section-beige .eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; display: block; }
+.section-beige .sec-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--orange); margin-bottom: 16px; line-height: 1.1; }
+.section-beige .sec-desc { font-size: 1rem; font-weight: 500; color: var(--gray-text); margin-bottom: 48px; max-width: 600px; }
+.section-beige strong { color: var(--orange); font-weight: 800; }
+
+.section-dark .eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--yellow); margin-bottom: 12px; display: block; }
+.section-dark .sec-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--yellow); margin-bottom: 16px; line-height: 1.1; }
+.section-dark .sec-desc { font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.6); margin-bottom: 48px; max-width: 600px; }
+.section-dark strong { color: var(--yellow); font-weight: 800; }
+
+/* Cover Logo */
+.cover-logo { margin-bottom: 40px; display: inline-flex; align-items: baseline; gap: 6px; }
+.cover-logo-text { font-size: 2rem; font-weight: 900; color: var(--white); letter-spacing: -1px; }
+.cover-logo-text span { color: var(--yellow); }
+.cover-logo-badge { background: var(--yellow); color: var(--orange); font-size: 0.8rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: lowercase; }
+
+.cover { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+.cover-client { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--yellow); margin-bottom: 16px; }
+.cover-title { font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 900; line-height: 1.05; color: var(--white); margin-bottom: 24px; }
+.cover-subtitle { font-size: 1.2rem; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 60px; max-width: 500px; }
+
+.cover-numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.cover-num-item { background: rgba(0,0,0,0.15); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); }
+.cover-num-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.7); margin-bottom: 12px; }
+.cover-num-val { font-size: 2.2rem; font-weight: 900; color: var(--white); margin-bottom: 4px; }
+.cover-num-sub { font-size: 0.8rem; font-weight: 500; color: var(--yellow); }
+.cover-period { margin-top: 40px; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); }
+
+/* KPI Grid */
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+.kpi-card { border-radius: 16px; padding: 24px; border-top: 4px solid var(--gray-mid); display: flex; flex-direction: column; }
+.kpi-card.orange { border-top-color: var(--orange); }
+.kpi-card.yellow { border-top-color: var(--yellow); }
+.kpi-card.blue { border-top-color: var(--blue); }
+.kpi-card.pink { border-top-color: var(--pink); }
+
+.section-beige .kpi-card { background: var(--white); }
+.section-beige .kpi-label { color: var(--gray-mid); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.section-beige .kpi-value { font-size: 2rem; font-weight: 900; color: var(--black); margin-bottom: 12px; }
+.section-beige .kpi-note { font-size: 0.8rem; font-weight: 500; color: var(--gray-mid); margin-top: auto; padding-top: 12px; }
+
+.section-dark .kpi-card { background: var(--dark-card); }
+.section-dark .kpi-label { color: rgba(255,255,255,0.6); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.section-dark .kpi-value { font-size: 2rem; font-weight: 900; color: var(--white); margin-bottom: 12px; }
+.section-dark .kpi-note { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.4); margin-top: auto; padding-top: 12px; }
+
+.kpi-badge { font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; width: fit-content; }
+.kpi-badge.up { background: var(--yellow); color: var(--black); }
+.kpi-badge.down { background: var(--pink); color: var(--black); }
+.kpi-badge.neutral { background: rgba(0,0,0,0.05); color: var(--gray-mid); }
+
+/* Insight Box */
+.insight-box { padding: 24px 32px; border-radius: 16px; margin-top: 32px; display: flex; gap: 16px; align-items: flex-start; }
+.insight-icon { font-size: 1.5rem; line-height: 1; }
+.insight-text { font-size: 1rem; font-weight: 500; }
+
+.section-beige .insight-box { background: rgba(243,103,62,0.07); border: 1px solid rgba(243,103,62,0.2); }
+.section-beige .insight-text { color: var(--gray-text); }
+
+.section-dark .insight-box { background: rgba(228,254,82,0.07); border: 1px solid rgba(228,254,82,0.3); }
+.section-dark .insight-text { color: rgba(255,255,255,0.85); }
+
+/* Form Cards / Campaign Cards */
+.camp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.camp-card { border-radius: 16px; padding: 24px; display: flex; flex-direction: column; background: var(--white); border-top: 4px solid var(--blue); }
+.section-dark .camp-card { background: var(--dark-card); }
+.camp-card.orange { border-top-color: var(--orange); }
+.camp-card.yellow { border-top-color: var(--yellow); }
+
+.camp-tag { font-size: 0.65rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 16px; width: fit-content; }
+.camp-tag.tag-b2b { background: rgba(255,178,181,0.2); color: var(--pink); }
+.section-beige .camp-tag.tag-b2b { background: rgba(243,103,62,0.1); color: var(--orange); }
+
+.camp-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 24px; }
+.section-beige .camp-title { color: var(--black); }
+.section-dark .camp-title { color: var(--white); }
+
+.camp-metric { margin-bottom: 16px; }
+.camp-metric:last-child { margin-bottom: 0; }
+.camp-m-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.section-beige .camp-m-label { color: var(--gray-mid); }
+.section-dark .camp-m-label { color: rgba(255,255,255,0.5); }
+
+.camp-m-val { font-size: 1.4rem; font-weight: 900; }
+.section-beige .camp-m-val { color: var(--black); }
+.section-dark .camp-m-val { color: var(--white); }
+
+.camp-m-sub { font-size: 0.8rem; font-weight: 500; margin-left: 8px; }
+.section-beige .camp-m-sub { color: var(--gray-mid); }
+.section-dark .camp-m-sub { color: rgba(255,255,255,0.4); }
+
+/* CTA Box */
+.cta-box { background: var(--yellow); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 48px; }
+.cta-title { font-size: 1.8rem; font-weight: 900; color: var(--black); margin-bottom: 32px; }
+.cta-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.cta-stat { display: flex; flex-direction: column; align-items: center; }
+.cs-val { font-size: 2.5rem; font-weight: 900; color: var(--black); line-height: 1; margin-bottom: 8px; }
+.cs-lbl { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-text); }
+
+/* Next steps */
+.next-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+.next-step-card { background: var(--dark-card); border-radius: 16px; padding: 24px; border-top: 4px solid var(--blue); }
+.next-step-card.orange { border-top-color: var(--orange); }
+.next-step-card.yellow { border-top-color: var(--yellow); }
+.next-step-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--yellow); margin-bottom: 12px; }
+.next-step-text { font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.7); }
+
+/* Footer */
+.footer { background: #0A0A0A; padding: 48px 8%; text-align: center; }
+.footer-logo { margin-bottom: 16px; display: inline-flex; align-items: baseline; gap: 4px; }
+.footer-logo-text { font-size: 1.2rem; font-weight: 900; color: rgba(255,255,255,0.3); letter-spacing: -0.5px; }
+.footer-logo-text span { color: rgba(228,254,82,0.3); }
+.footer-logo-badge { background: rgba(228,254,82,0.1); color: rgba(243,103,62,0.5); font-size: 0.6rem; font-weight: 800; padding: 2px 4px; border-radius: 3px; text-transform: lowercase; }
+.footer-text { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.2); }
+
+@media (max-width: 768px) {
+  .section-orange, .section-beige, .section-dark, .footer { padding: 60px 6%; }
+  .cover-numbers { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .camp-grid { grid-template-columns: 1fr; }
+  .cta-stats { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
+  .next-steps { grid-template-columns: 1fr; }
+  .insight-box { flex-direction: column; gap: 12px; padding: 20px; }
+}
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+  .cover-numbers { grid-template-columns: 1fr; }
+  .cta-stats { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ CAPA (Laranja) ═══ -->
+<section class="section-orange cover">
+  <div class="inner" style="width:100%;">
+    <div class="cover-logo">
+      <span class="cover-logo-text"><span>MO</span>CA</span>
+      <span class="cover-logo-badge">lab</span>
+    </div>
+    
+    <div class="cover-client">Rafael Odone Imóveis</div>
+    <h1 class="cover-title">Relatório de Alta Renda<br>01 a 15 de Abril 2026</h1>
+    <p class="cover-subtitle">Geração de Leads Qualificados · Imóveis &gt; R$ 1 Milhão</p>
+    
+    <div class="cover-numbers">
+      <div class="cover-num-item">
+        <div class="cover-num-label">Investimento</div>
+        <div class="cover-num-val">R$ 1.147</div>
+        <div class="cover-num-sub" style="color: var(--black); background: var(--yellow); padding: 2px 6px; border-radius: 4px; display: inline-block;">+19,8% vs Mar</div>
+      </div>
+      <div class="cover-num-item">
+        <div class="cover-num-label">Leads (Form)</div>
+        <div class="cover-num-val">69</div>
+        <div class="cover-num-sub">forms nativos (+13%)</div>
+      </div>
+      <div class="cover-num-item">
+        <div class="cover-num-label">MQLs &gt;1M</div>
+        <div class="cover-num-val" style="color: var(--yellow);">35</div>
+        <div class="cover-num-sub" style="color: var(--white);">imóveis de alto valor</div>
+      </div>
+      <div class="cover-num-item">
+        <div class="cover-num-label">Custo/MQL</div>
+        <div class="cover-num-val">R$ 32,80</div>
+        <div class="cover-num-sub">excelente custo-benefício</div>
+      </div>
+    </div>
+    
+    <p class="cover-period">Período: 01 a 15 de Abril de 2026 · Comparativo: 01 a 15 de Março de 2026</p>
+  </div>
+</section>
+
+<!-- ═══ RESUMO CONSOLIDADO (Bege) ═══ -->
+<section class="section-beige">
+  <div class="inner">
+    <span class="eyebrow">🍃 Visão Geral</span>
+    <h2 class="sec-title">Qualificação de MQLs</h2>
+    <p class="sec-desc">Métricas isoladas exclusivamente para pessoas que preencheram o formulário com interesse de compra a partir de R$ 1 Milhão.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card orange">
+        <div class="kpi-label">Investimento Total</div>
+        <div class="kpi-value">R$ 1.147,83</div>
+        <span class="kpi-badge up">+19,8% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: R$ 958,52</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Leads Totais (Form)</div>
+        <div class="kpi-value">69</div>
+        <span class="kpi-badge up">+13,1% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: 61 leads</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">Custo por Lead Bruto</div>
+        <div class="kpi-value">R$ 16,64</div>
+        <span class="kpi-badge neutral">Estável</span>
+        <div class="kpi-note">Tráfego engajado</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">MQLs Confirmados (&gt;1M)</div>
+        <div class="kpi-value">35</div>
+        <span class="kpi-badge neutral">Alto interesse</span>
+        <div class="kpi-note">Público de alta renda</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">CP-MQL</div>
+        <div class="kpi-value">R$ 32,80</div>
+        <span class="kpi-badge up">Meta atingida</span>
+        <div class="kpi-note">Excelente custo de captação</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">Taxa de Conversão em MQL</div>
+        <div class="kpi-value">50,7%</div>
+        <span class="kpi-badge up">Público quente</span>
+        <div class="kpi-note">1 a cada 2 leads é qualificado</div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text">
+        O tráfego de Abril atingiu uma taxa de conversão fenomenal: <strong>50,7% de todas as pessoas que preenchem o formulário têm interesse na compra de imóveis acima de 1 milhão de reais</strong>. Conseguimos adquirir cada MQL (contato de altíssimo valor) por apenas R$ 32,80, comprovando a assertividade das campanhas.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ MQLS POR CONJUNTO E ANUNCIO (Preto) ═══ -->
+<section class="section-dark">
+  <div class="inner">
+    <span class="eyebrow">Performance Granular</span>
+    <h2 class="sec-title">Campeões de MQL</h2>
+    <p class="sec-desc">Detalhamento dos conjuntos de anúncio e criativos que mais estão atraindo investidores de alto padrão.</p>
+
+    <h3 style="color: var(--yellow); font-size: 1.2rem; font-weight: 800; margin-bottom: 16px;">Top Conjuntos de Anúncios (Adsets)</h3>
+    <div class="camp-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 40px;">
+      <div class="camp-card yellow">
+        <span class="camp-tag tag-b2b">Lookalike</span>
+        <div class="camp-title">Acima de 50k ou 9-colab - Ordem de Valor</div>
+        <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: -20px; margin-bottom: 24px;">ID: 120248927507060456</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">MQLs Gerados</div>
+          <span class="camp-m-val">19</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Custo por MQL (CP-MQL)</div>
+          <span class="camp-m-val">R$ 22,88</span> <span class="camp-m-sub">Gasto total: R$ 434,81</span>
+        </div>
+      </div>
+
+      <div class="camp-card orange">
+        <span class="camp-tag tag-b2b">Interesses</span>
+        <div class="camp-title">Interesses Imóveis - Alto Padrão (3seg)</div>
+        <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: -20px; margin-bottom: 24px;">ID: 120243624353130456</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">MQLs Gerados</div>
+          <span class="camp-m-val">6</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Custo por MQL (CP-MQL)</div>
+          <span class="camp-m-val">R$ 28,75</span> <span class="camp-m-sub">Gasto total: R$ 172,53</span>
+        </div>
+      </div>
+
+      <div class="camp-card pink">
+        <span class="camp-tag tag-b2b">Interesses</span>
+        <div class="camp-title">Interesses Alto Valor (Sem conter desde 10 OUT)</div>
+        <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: -20px; margin-bottom: 24px;">ID: 120242488703220456</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">MQLs Gerados</div>
+          <span class="camp-m-val">5</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Custo por MQL (CP-MQL)</div>
+          <span class="camp-m-val">R$ 38,32</span> <span class="camp-m-sub">Gasto total: R$ 191,60</span>
+        </div>
+      </div>
+
+      <div class="camp-card pink">
+        <span class="camp-tag tag-b2b">Interesses</span>
+        <div class="camp-title">ADV - Interesses Imóveis</div>
+        <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: -20px; margin-bottom: 24px;">ID: 120246416161340456</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">MQLs Gerados</div>
+          <span class="camp-m-val">4</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Custo por MQL (CP-MQL)</div>
+          <span class="camp-m-val">R$ 38,31</span> <span class="camp-m-sub">Gasto total: R$ 153,25</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color: var(--yellow); font-size: 1.2rem; font-weight: 800; margin-bottom: 16px;">Top Anúncios Geradores de MQLs</h3>
+    <div class="kpi-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="kpi-card yellow">
+        <div class="kpi-label">Criativo Campeão 01</div>
+        <div class="kpi-value" style="color: var(--yellow); font-size: 2.2rem;">11 MQLs</div>
+        <div class="kpi-note">Ad ID: 120248928151940456</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">Criativo Campeão 02</div>
+        <div class="kpi-value" style="color: var(--yellow); font-size: 2.2rem;">8 MQLs</div>
+        <div class="kpi-note">Ad ID: 120248927507210456</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Criativo Destaque 03</div>
+        <div class="kpi-value" style="font-size: 2.2rem;">6 MQLs</div>
+        <div class="kpi-note">Ad ID: 120243624353120456</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Criativo Destaque 04</div>
+        <div class="kpi-value" style="font-size: 2.2rem;">5 MQLs</div>
+        <div class="kpi-note">Ad ID: 120242488703290456</div>
+      </div>
+    </div>
+
+    <div class="insight-box" style="background: rgba(228,254,82,0.07); border-color: rgba(228,254,82,0.3);">
+      <div class="insight-icon">🎯</div>
+      <div class="insight-text">
+        O conjunto de público <strong>"Lookalike - Acima de 50k"</strong> está tendo uma performance excepcional, convertendo os MQLs por apenas <strong>R$ 22,88</strong> (abaixo da média global da conta). Este deve ser o público focado para receber aumento de orçamento na próxima quinzena.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider yellow"></div>
+
+<!-- ═══ CONCLUSÃO (Preto) ═══ -->
+<section class="section-dark">
+  <div class="inner">
+    <span class="eyebrow">Diagnóstico Final</span>
+    <h2 class="sec-title">Resumo Executivo</h2>
+
+    <div class="cta-box">
+      <div class="cta-title">Rafael Odone — Abr 01-15, 2026</div>
+      <div class="cta-stats">
+        <div class="cta-stat">
+          <span class="cs-val">R$ 1.147</span>
+          <span class="cs-lbl">Investimento</span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-val">69</span>
+          <span class="cs-lbl">Leads (Total)</span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-val">35</span>
+          <span class="cs-lbl">MQLs &gt;1 Milhão</span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-val">R$ 32,80</span>
+          <span class="cs-lbl">Custo/MQL</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sec-desc" style="max-width: 100%; color: rgba(255,255,255,0.85); font-size: 1.05rem;">
+      O período registrou um volume sólido e qualificado. Conseguir atrair 35 clientes interessados na compra de imóveis a partir de R$ 1 Milhão por um Custo por MQL de apenas R$ 32,80 prova que a esteira de captação tem <strong>altíssima sinergia com o perfil investidor</strong>. O público semelhante (Lookalike de 50k) foi o trunfo da quinzena.
+    </p>
+
+    <div class="next-steps">
+      <div class="next-step-card yellow">
+        <div class="next-step-label">O que Funcionou Muito Bem</div>
+        <div class="next-step-text">Os formulários de pré-qualificação nativos do Meta filtraram precisamente o público: a cada 2 pessoas preenchendo o formulário, 1 tem interesse direto em propriedades acima de 1 milhão.</div>
+      </div>
+      <div class="next-step-card orange">
+        <div class="next-step-label">Oportunidade Imediata</div>
+        <div class="next-step-text">Aumentar de forma agressiva (+20%) o orçamento nos conjuntos "Lookalike - Acima de 50k", que estão gerando os MQLs com o menor custo histórico da conta (R$ 22,88).</div>
+      </div>
+      <div class="next-step-card blue">
+        <div class="next-step-label">Próximo Passo Comercial</div>
+        <div class="next-step-text">Alinhamento forte com a equipe comercial para tracionar esses 35 contatos quentes e mapear em qual etapa do CRM eles estagnam, otimizando o follow-up nos próximos 7 dias.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="inner">
+    <div class="footer-logo">
+      <span class="footer-logo-text"><span>MO</span>CA</span>
+      <span class="footer-logo-badge">lab</span>
+    </div>
+    <div class="footer-text">
+      Fonte dos dados: Meta Ads API v22.0 · Conta Rafael Odone<br>
+      Período analisado: 01/04/2026 a 15/04/2026 · Comparativo: 01/03/2026 a 15/03/2026<br>
+      Gerado em: 17/04/2026
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
