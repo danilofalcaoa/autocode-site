@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moca Lab — Relatório Primebras B2C</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --yellow:    #E4FE52;
+  --orange:    #F3673E;
+  --beige:     #F9EDE3;
+  --blue:      #ADD9FF;
+  --pink:      #FFB2B5;
+  --black:     #111111;
+  --dark-card: #222222;
+  --white:     #FFFFFF;
+  --gray-text: #444444;
+  --gray-mid:  #777777;
+}
+
+body { font-family: 'Manrope', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+.section-orange { background: var(--orange); color: var(--white); padding: 80px 8%; }
+.section-beige { background: var(--beige); color: var(--gray-text); padding: 80px 8%; }
+.section-dark { background: var(--black); color: var(--white); padding: 80px 8%; }
+
+.section-divider { height: 6px; background: var(--orange); }
+.section-divider.yellow { background: var(--yellow); }
+
+.inner { max-width: 1000px; margin: 0 auto; }
+
+/* Typo */
+.section-orange .eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 12px; display: block; }
+.section-orange .sec-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--white); margin-bottom: 16px; line-height: 1.1; }
+.section-orange .sec-desc { font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 48px; max-width: 600px; }
+
+.section-beige .eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; display: block; }
+.section-beige .sec-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--orange); margin-bottom: 16px; line-height: 1.1; }
+.section-beige .sec-desc { font-size: 1rem; font-weight: 500; color: var(--gray-text); margin-bottom: 48px; max-width: 600px; }
+.section-beige strong { color: var(--orange); font-weight: 800; }
+
+.section-dark .eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--yellow); margin-bottom: 12px; display: block; }
+.section-dark .sec-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--yellow); margin-bottom: 16px; line-height: 1.1; }
+.section-dark .sec-desc { font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.6); margin-bottom: 48px; max-width: 600px; }
+.section-dark strong { color: var(--yellow); font-weight: 800; }
+
+/* Cover Logo */
+.cover-logo { margin-bottom: 40px; display: inline-flex; align-items: baseline; gap: 6px; }
+.cover-logo-text { font-size: 2rem; font-weight: 900; color: var(--white); letter-spacing: -1px; }
+.cover-logo-text span { color: var(--yellow); }
+.cover-logo-badge { background: var(--yellow); color: var(--orange); font-size: 0.8rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: lowercase; }
+
+.cover { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+.cover-client { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--yellow); margin-bottom: 16px; }
+.cover-title { font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 900; line-height: 1.05; color: var(--white); margin-bottom: 24px; }
+.cover-subtitle { font-size: 1.2rem; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 60px; max-width: 500px; }
+
+.cover-numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.cover-num-item { background: rgba(0,0,0,0.15); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); }
+.cover-num-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.7); margin-bottom: 12px; }
+.cover-num-val { font-size: 2.2rem; font-weight: 900; color: var(--white); margin-bottom: 4px; }
+.cover-num-sub { font-size: 0.8rem; font-weight: 500; color: var(--yellow); }
+.cover-period { margin-top: 40px; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); }
+
+/* KPI Grid */
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+.kpi-card { border-radius: 16px; padding: 24px; border-top: 4px solid var(--gray-mid); display: flex; flex-direction: column; }
+.kpi-card.orange { border-top-color: var(--orange); }
+.kpi-card.yellow { border-top-color: var(--yellow); }
+.kpi-card.blue { border-top-color: var(--blue); }
+.kpi-card.pink { border-top-color: var(--pink); }
+
+.section-beige .kpi-card { background: var(--white); }
+.section-beige .kpi-label { color: var(--gray-mid); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.section-beige .kpi-value { font-size: 2rem; font-weight: 900; color: var(--black); margin-bottom: 12px; }
+.section-beige .kpi-note { font-size: 0.8rem; font-weight: 500; color: var(--gray-mid); margin-top: auto; padding-top: 12px; }
+
+.section-dark .kpi-card { background: var(--dark-card); }
+.section-dark .kpi-label { color: rgba(255,255,255,0.6); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.section-dark .kpi-value { font-size: 2rem; font-weight: 900; color: var(--white); margin-bottom: 12px; }
+.section-dark .kpi-note { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.4); margin-top: auto; padding-top: 12px; }
+
+.kpi-badge { font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; width: fit-content; }
+.kpi-badge.up { background: var(--yellow); color: var(--black); }
+.kpi-badge.down { background: var(--pink); color: var(--black); }
+.kpi-badge.neutral { background: rgba(0,0,0,0.05); color: var(--gray-mid); }
+.section-dark .kpi-badge.neutral { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+
+/* Insight Box */
+.insight-box { padding: 24px 32px; border-radius: 16px; margin-top: 32px; display: flex; gap: 16px; align-items: flex-start; }
+.insight-icon { font-size: 1.5rem; line-height: 1; }
+.insight-text { font-size: 1rem; font-weight: 500; }
+
+.section-beige .insight-box { background: rgba(243,103,62,0.07); border: 1px solid rgba(243,103,62,0.2); }
+.section-beige .insight-text { color: var(--gray-text); }
+
+.section-dark .insight-box { background: rgba(228,254,82,0.07); border: 1px solid rgba(228,254,82,0.3); }
+.section-dark .insight-text { color: rgba(255,255,255,0.85); }
+
+/* Alerta Box (Rosa) */
+.alerta-box { padding: 24px 32px; border-radius: 16px; margin-top: 32px; display: flex; gap: 16px; align-items: flex-start; background: rgba(255,178,181,0.1); border: 1px solid rgba(255,178,181,0.3); }
+.alerta-box .insight-icon { color: var(--pink); }
+.alerta-box .insight-text { color: rgba(255,255,255,0.85); }
+.alerta-box strong { color: var(--pink); }
+
+/* Diagnostico Cards */
+.diag-card { padding: 24px; border-radius: 16px; border: 1px solid; background: var(--white); margin-bottom: 16px; }
+.diag-card.critical { background: #FFF5F5; border-color: rgba(255,77,77,0.35); }
+.diag-card.warning  { background: #FFFBF5; border-color: rgba(243,103,62,0.35); }
+.diag-card.positive { background: #F5FFF8; border-color: rgba(46,125,50,0.25); }
+
+.diag-tag { font-size: 0.65rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 16px; }
+.diag-tag.critical { background: rgba(255,77,77,0.15); color: #B71C1C; }
+.diag-tag.warning  { background: rgba(243,103,62,0.15); color: #BF360C; }
+.diag-tag.positive { background: rgba(46,125,50,0.15); color: #1B5E20; }
+
+.diag-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; }
+.critical .diag-title { color: #B71C1C; }
+.warning  .diag-title { color: #BF360C; }
+.positive .diag-title { color: #1B5E20; }
+
+.diag-body { font-size: 0.95rem; font-weight: 500; color: #444444; margin-bottom: 16px; }
+.diag-body strong { color: #111111; font-weight: 700; }
+.diag-body .hl { color: var(--orange); font-weight: 700; }
+
+.diag-metric-row { display: flex; gap: 24px; }
+.diag-metric { display: flex; flex-direction: column; }
+.diag-metric-val { font-size: 1.4rem; font-weight: 900; color: var(--black); }
+.diag-metric-lbl { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--gray-mid); letter-spacing: 1px; }
+
+/* Form Cards / Campaign Cards */
+.camp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.camp-card { border-radius: 16px; padding: 24px; display: flex; flex-direction: column; background: var(--white); border-top: 4px solid var(--blue); }
+.section-dark .camp-card { background: var(--dark-card); }
+.camp-card.orange { border-top-color: var(--orange); }
+.camp-card.yellow { border-top-color: var(--yellow); }
+.camp-card.pink { border-top-color: var(--pink); }
+
+.camp-tag { font-size: 0.65rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 16px; width: fit-content; }
+.camp-tag.tag-cbo { background: rgba(173,217,255,0.2); color: var(--blue); }
+.section-beige .camp-tag.tag-cbo { background: rgba(173,217,255,0.3); color: #0066CC; }
+
+.camp-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 24px; }
+.section-beige .camp-title { color: var(--black); }
+.section-dark .camp-title { color: var(--white); }
+
+.camp-metric { margin-bottom: 16px; }
+.camp-metric:last-child { margin-bottom: 0; }
+.camp-m-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.section-beige .camp-m-label { color: var(--gray-mid); }
+.section-dark .camp-m-label { color: rgba(255,255,255,0.5); }
+
+.camp-m-val { font-size: 1.4rem; font-weight: 900; }
+.section-beige .camp-m-val { color: var(--black); }
+.section-dark .camp-m-val { color: var(--white); }
+
+.camp-m-sub { font-size: 0.8rem; font-weight: 500; margin-left: 8px; }
+.section-beige .camp-m-sub { color: var(--gray-mid); }
+.section-dark .camp-m-sub { color: rgba(255,255,255,0.4); }
+
+/* Funnel Visual */
+.funnel-card { background: var(--dark-card); border-radius: 16px; padding: 32px; border-top: 4px solid var(--orange); }
+.section-beige .funnel-card { background: var(--white); border-color: var(--orange); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+.funnel-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 24px; color: var(--white); }
+.section-beige .funnel-title { color: var(--black); }
+.funnel-step { margin-bottom: 8px; }
+.funnel-step-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.funnel-step-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.7); }
+.section-beige .funnel-step-label { color: var(--gray-mid); }
+.funnel-step-val { font-size: 1.2rem; font-weight: 900; color: var(--white); }
+.section-beige .funnel-step-val { color: var(--black); }
+.funnel-bar-track { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+.section-beige .funnel-bar-track { background: rgba(0,0,0,0.05); }
+.funnel-bar-fill { height: 100%; border-radius: 4px; background: var(--orange); }
+.funnel-bar-fill.yellow { background: var(--yellow); }
+.funnel-bar-fill.blue { background: var(--blue); }
+.funnel-drop { font-size: 0.7rem; font-weight: 800; color: var(--pink); text-align: right; margin-bottom: 24px; letter-spacing: 1px; }
+
+/* CTA Box */
+.cta-box { background: var(--yellow); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 48px; }
+.cta-title { font-size: 1.8rem; font-weight: 900; color: var(--black); margin-bottom: 32px; }
+.cta-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.cta-stat { display: flex; flex-direction: column; align-items: center; }
+.cs-val { font-size: 2.5rem; font-weight: 900; color: var(--black); line-height: 1; margin-bottom: 8px; }
+.cs-lbl { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-text); }
+
+/* Next steps */
+.next-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+.next-step-card { background: var(--dark-card); border-radius: 16px; padding: 24px; border-top: 4px solid var(--blue); }
+.next-step-card.orange { border-top-color: var(--orange); }
+.next-step-card.yellow { border-top-color: var(--yellow); }
+.next-step-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--yellow); margin-bottom: 12px; }
+.next-step-text { font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.7); }
+
+/* Footer */
+.footer { background: #0A0A0A; padding: 48px 8%; text-align: center; }
+.footer-logo { margin-bottom: 16px; display: inline-flex; align-items: baseline; gap: 4px; }
+.footer-logo-text { font-size: 1.2rem; font-weight: 900; color: rgba(255,255,255,0.3); letter-spacing: -0.5px; }
+.footer-logo-text span { color: rgba(228,254,82,0.3); }
+.footer-logo-badge { background: rgba(228,254,82,0.1); color: rgba(243,103,62,0.5); font-size: 0.6rem; font-weight: 800; padding: 2px 4px; border-radius: 3px; text-transform: lowercase; }
+.footer-text { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.2); }
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .section-orange, .section-beige, .section-dark, .footer { padding: 60px 6%; }
+  .cover-numbers { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .camp-grid { grid-template-columns: 1fr; }
+  .cta-stats { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
+  .next-steps { grid-template-columns: 1fr; }
+  .insight-box, .alerta-box { flex-direction: column; gap: 12px; padding: 20px; }
+}
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+  .cover-numbers { grid-template-columns: 1fr; }
+  .cta-stats { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ CAPA (Laranja) ═══ -->
+<section class="section-orange cover">
+  <div class="inner" style="width:100%;">
+    <div class="cover-logo">
+      <span class="cover-logo-text"><span>MO</span>CA</span>
+      <span class="cover-logo-badge">lab</span>
+    </div>
+    
+    <div class="cover-client">Primebras B2C</div>
+    <h1 class="cover-title">Relatório de E-commerce<br>01 a 15 de Abril 2026</h1>
+    <p class="cover-subtitle">Meta Ads · Conversões B2C · Análise Quinzenal</p>
+    
+    <div class="cover-numbers">
+      <div class="cover-num-item">
+        <div class="cover-num-label">Investimento</div>
+        <div class="cover-num-val">R$ 12.689</div>
+        <div class="cover-num-sub" style="color: var(--black); background: var(--yellow); padding: 2px 6px; border-radius: 4px; display: inline-block;">+35,0% vs Mar</div>
+      </div>
+      <div class="cover-num-item">
+        <div class="cover-num-label">Receita Gerada</div>
+        <div class="cover-num-val">R$ 27.115</div>
+        <div class="cover-num-sub">-18,4% vs Mar</div>
+      </div>
+      <div class="cover-num-item">
+        <div class="cover-num-label">ROAS</div>
+        <div class="cover-num-val" style="color: var(--yellow);">2,14x</div>
+        <div class="cover-num-sub" style="color: var(--white);">vs 3,53x Mar</div>
+      </div>
+      <div class="cover-num-item">
+        <div class="cover-num-label">CP/Compra</div>
+        <div class="cover-num-val">R$ 423</div>
+        <div class="cover-num-sub">vs R$ 254 Mar</div>
+      </div>
+    </div>
+    
+    <p class="cover-period">Período: 01 a 15 de Abril de 2026 · Comparativo: 01 a 15 de Março de 2026</p>
+  </div>
+</section>
+
+<!-- ═══ RESUMO CONSOLIDADO (Bege) ═══ -->
+<section class="section-beige">
+  <div class="inner">
+    <span class="eyebrow">🍃 Visão Geral</span>
+    <h2 class="sec-title">KPIs Consolidados</h2>
+    <p class="sec-desc">Comparativo de performance entre a primeira quinzena de Abril e o mesmo período de Março de 2026.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card orange">
+        <div class="kpi-label">Investimento Total</div>
+        <div class="kpi-value">R$ 12.689</div>
+        <span class="kpi-badge up">+35,0% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: R$ 9.397</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">Receita (Compras)</div>
+        <div class="kpi-value">R$ 27.115</div>
+        <span class="kpi-badge down">-18,4% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: R$ 33.212</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">ROAS</div>
+        <div class="kpi-value">2,14x</div>
+        <span class="kpi-badge down">-39,4% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: 3,53x</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">Total de Compras</div>
+        <div class="kpi-value">30</div>
+        <span class="kpi-badge down">-18,9% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: 37 compras</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">Custo por Compra (CPA)</div>
+        <div class="kpi-value">R$ 423</div>
+        <span class="kpi-badge down">+66,6% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: R$ 254</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">CTR (Taxa de Clique)</div>
+        <div class="kpi-value">3,79%</div>
+        <span class="kpi-badge neutral">+0,9% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: 3,76%</div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-icon">⚠️</div>
+      <div class="insight-text">
+        Nesta quinzena, observamos um <strong>aumento de 35% no investimento, mas o ROAS e a Receita caíram</strong>. Apesar do público continuar clicando nos anúncios (CTR estável em excelentes 3,79%), o funil no site não está segurando a demanda, resultando em um Custo por Compra (CPA) elevado de R$423.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ ANÁLISE POR CAMPANHA (Preto) ═══ -->
+<section class="section-dark">
+  <div class="inner">
+    <span class="eyebrow">Performance de Campanhas</span>
+    <h2 class="sec-title">Distribuição de Resultados</h2>
+    <p class="sec-desc">Como o orçamento de Abril foi distribuído e qual foi o retorno de cada estratégia.</p>
+
+    <div class="camp-grid">
+      <div class="camp-card orange">
+        <span class="camp-tag tag-cbo">Conversão</span>
+        <div class="camp-title">Escala (Público Frio)</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Gasto / ROAS</div>
+          <span class="camp-m-val">R$ 7.043</span> <span class="camp-m-sub">2,27x ROAS</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Compras / CPA</div>
+          <span class="camp-m-val" style="color: var(--yellow);">19</span> <span class="camp-m-sub">R$ 370/compra</span>
+        </div>
+      </div>
+
+      <div class="camp-card yellow">
+        <span class="camp-tag tag-cbo">Conversão</span>
+        <div class="camp-title">Remarketing</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Gasto / ROAS</div>
+          <span class="camp-m-val">R$ 2.111</span> <span class="camp-m-sub" style="color: var(--yellow);">3,81x ROAS</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Compras / CPA</div>
+          <span class="camp-m-val">7</span> <span class="camp-m-sub">R$ 301/compra</span>
+        </div>
+      </div>
+
+      <div class="camp-card pink">
+        <span class="camp-tag tag-cbo">Conversão</span>
+        <div class="camp-title">Teste (Público Frio)</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Gasto / ROAS</div>
+          <span class="camp-m-val">R$ 1.965</span> <span class="camp-m-sub" style="color: var(--pink);">1,57x ROAS</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Compras / CPA</div>
+          <span class="camp-m-val">4</span> <span class="camp-m-sub">R$ 491/compra</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="insight-box" style="background: rgba(228,254,82,0.07); border-color: rgba(228,254,82,0.3);">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text">
+        O <strong>Remarketing</strong> segue sendo a campanha mais eficiente da conta, gerando o maior ROAS (3,81x) e o menor CPA (R$301). Já a campanha de <strong>Teste</strong> puxou a média para baixo com ROAS de 1,57x. A campanha de <strong>Escala</strong> teve o maior volume, mas o ROAS de 2,27x ainda está abaixo do ideal de 3x.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider yellow"></div>
+
+<!-- ═══ FUNIL E GARGALOS (Bege) ═══ -->
+<section class="section-beige">
+  <div class="inner">
+    <span class="eyebrow">🍃 Raio-X do Tráfego</span>
+    <h2 class="sec-title">Gargalos do Funil e Site</h2>
+    <p class="sec-desc">Para onde estão indo as pessoas que clicam no anúncio? Análise de perda de tráfego na jornada de compra.</p>
+
+    <div class="funnel-card" style="margin-bottom: 32px;">
+      <div class="funnel-title">Jornada do Usuário (Abr 01-15)</div>
+
+      <div class="funnel-step">
+        <div class="funnel-step-header">
+          <span class="funnel-step-label">Acessos Reais (View Content)</span>
+          <span class="funnel-step-val">7.984 acessos</span>
+        </div>
+        <div class="funnel-bar-track">
+          <div class="funnel-bar-fill" style="width:100%"></div>
+        </div>
+      </div>
+      <div class="funnel-drop" style="color: var(--pink);">Queda drástica: Apenas 2,99% adicionam ao carrinho ▾</div>
+
+      <div class="funnel-step">
+        <div class="funnel-step-header">
+          <span class="funnel-step-label">Adições ao Carrinho (ATC)</span>
+          <span class="funnel-step-val">239 ATCs</span>
+        </div>
+        <div class="funnel-bar-track">
+          <div class="funnel-bar-fill yellow" style="width:15%"></div>
+        </div>
+      </div>
+      <div class="funnel-drop" style="color: var(--gray-mid);">Iniciado Checkout: 289 (Problema no pixel? ATC menor que IC) ▾</div>
+
+      <div class="funnel-step">
+        <div class="funnel-step-header">
+          <span class="funnel-step-label">Compras Realizadas</span>
+          <span class="funnel-step-val">30 compras</span>
+        </div>
+        <div class="funnel-bar-track">
+          <div class="funnel-bar-fill blue" style="width:4%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="diag-card critical">
+        <span class="diag-tag critical">🔴 Crítico — Taxa de Conversão da LP</span>
+        <div class="diag-title">Taxa View Content → ATC: 2,99%</div>
+        <div class="diag-body">
+          A média saudável para e-commerce é <span class="hl">acima de 7%</span>. Atualmente, a página de produto não está conseguindo convencer os visitantes a adicionar o item ao carrinho. O gargalo principal do seu faturamento está na Landing Page, e não nos anúncios.
+        </div>
+      </div>
+      <div class="diag-card warning">
+        <span class="diag-tag warning">🟡 Atenção — Pixel</span>
+        <div class="diag-title">ATC menor que Checkout</div>
+        <div class="diag-body">
+          Foram registrados 239 ATCs contra 289 Checkouts Iniciados. O fluxo natural dita que o ATC deveria ser sempre maior. Isso pode indicar eventos sendo perdidos, disparos duplicados de checkout ou fluxos do site que pulam a adição ao carrinho.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ CONCLUSÃO E PRÓXIMOS PASSOS (Preto) ═══ -->
+<section class="section-dark">
+  <div class="inner">
+    <span class="eyebrow">Diagnóstico e Próximos Passos</span>
+    <h2 class="sec-title">Resumo Executivo</h2>
+
+    <div class="cta-box">
+      <div class="cta-title">Primebras B2C — Abr 01-15, 2026</div>
+      <div class="cta-stats">
+        <div class="cta-stat">
+          <span class="cs-val">R$ 12,6k</span>
+          <span class="cs-lbl">Investimento</span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-val">2,14x</span>
+          <span class="cs-lbl">ROAS Médio</span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-val">30</span>
+          <span class="cs-lbl">Compras</span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-val">R$ 423</span>
+          <span class="cs-lbl">Custo/Compra</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sec-desc" style="max-width: 100%; color: rgba(255,255,255,0.85); font-size: 1.05rem;">
+      O aumento do investimento não foi acompanhado por um aumento de vendas nesta quinzena. Enquanto o CTR de 3,79% prova que <strong>o público certo está clicando nas peças criativas</strong>, a perda massiva de tráfego dentro da Landing Page (taxa de adição ao carrinho de apenas 2,99%) derrubou o ROAS para a zona de risco.
+    </p>
+
+    <div class="next-steps">
+      <div class="next-step-card yellow">
+        <div class="next-step-label">Oportunidade (Hoje)</div>
+        <div class="next-step-text">Redistribuir o budget da campanha de Teste (ROAS 1,57x) para a campanha de Remarketing (ROAS 3,81x), visando resgatar o ROAS global nos próximos dias.</div>
+      </div>
+      <div class="next-step-card orange">
+        <div class="next-step-label">Urgente (Site)</div>
+        <div class="next-step-text">Revisão obrigatória da página de produto da Primebras (CRO). Melhorar velocidade, provar credibilidade e simplificar o botão de adição ao carrinho. O gargalo é a LP.</div>
+      </div>
+      <div class="next-step-card blue">
+        <div class="next-step-label">Próximo Passo</div>
+        <div class="next-step-text">Revisar e corrigir a instalação do Pixel do Meta no fluxo do site. O fato do número de checkouts iniciados ser maior que as adições ao carrinho suja o aprendizado da campanha.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="inner">
+    <div class="footer-logo">
+      <span class="footer-logo-text"><span>MO</span>CA</span>
+      <span class="footer-logo-badge">lab</span>
+    </div>
+    <div class="footer-text">
+      Fonte dos dados: Meta Ads API v22.0 · Conta B2C act_1726104741370160<br>
+      Período analisado: 01/04/2026 a 15/04/2026 · Comparativo: 01/03/2026 a 15/03/2026<br>
+      Gerado em: 17/04/2026
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
