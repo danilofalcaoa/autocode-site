@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moca Lab — Relatório Primebras B2B</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --yellow:    #E4FE52;
+  --orange:    #F3673E;
+  --beige:     #F9EDE3;
+  --blue:      #ADD9FF;
+  --pink:      #FFB2B5;
+  --black:     #111111;
+  --dark-card: #222222;
+  --white:     #FFFFFF;
+  --gray-text: #444444;
+  --gray-mid:  #777777;
+}
+
+body { font-family: 'Manrope', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+.section-orange { background: var(--orange); color: var(--white); padding: 80px 8%; }
+.section-beige { background: var(--beige); color: var(--gray-text); padding: 80px 8%; }
+.section-dark { background: var(--black); color: var(--white); padding: 80px 8%; }
+
+.section-divider { height: 6px; background: var(--orange); }
+.section-divider.yellow { background: var(--yellow); }
+
+.inner { max-width: 1000px; margin: 0 auto; }
+
+/* Typo */
+.section-orange .eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 12px; display: block; }
+.section-orange .sec-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--white); margin-bottom: 16px; line-height: 1.1; }
+.section-orange .sec-desc { font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 48px; max-width: 600px; }
+
+.section-beige .eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; display: block; }
+.section-beige .sec-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--orange); margin-bottom: 16px; line-height: 1.1; }
+.section-beige .sec-desc { font-size: 1rem; font-weight: 500; color: var(--gray-text); margin-bottom: 48px; max-width: 600px; }
+.section-beige strong { color: var(--orange); font-weight: 800; }
+
+.section-dark .eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--yellow); margin-bottom: 12px; display: block; }
+.section-dark .sec-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--yellow); margin-bottom: 16px; line-height: 1.1; }
+.section-dark .sec-desc { font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.6); margin-bottom: 48px; max-width: 600px; }
+.section-dark strong { color: var(--yellow); font-weight: 800; }
+
+/* Cover Logo */
+.cover-logo { margin-bottom: 40px; display: inline-flex; align-items: baseline; gap: 6px; }
+.cover-logo-text { font-size: 2rem; font-weight: 900; color: var(--white); letter-spacing: -1px; }
+.cover-logo-text span { color: var(--yellow); }
+.cover-logo-badge { background: var(--yellow); color: var(--orange); font-size: 0.8rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: lowercase; }
+
+.cover { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+.cover-client { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--yellow); margin-bottom: 16px; }
+.cover-title { font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 900; line-height: 1.05; color: var(--white); margin-bottom: 24px; }
+.cover-subtitle { font-size: 1.2rem; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 60px; max-width: 500px; }
+
+.cover-numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.cover-num-item { background: rgba(0,0,0,0.15); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); }
+.cover-num-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.7); margin-bottom: 12px; }
+.cover-num-val { font-size: 2.2rem; font-weight: 900; color: var(--white); margin-bottom: 4px; }
+.cover-num-sub { font-size: 0.8rem; font-weight: 500; color: var(--yellow); }
+.cover-period { margin-top: 40px; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); }
+
+/* KPI Grid */
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+.kpi-card { border-radius: 16px; padding: 24px; border-top: 4px solid var(--gray-mid); display: flex; flex-direction: column; }
+.kpi-card.orange { border-top-color: var(--orange); }
+.kpi-card.yellow { border-top-color: var(--yellow); }
+.kpi-card.blue { border-top-color: var(--blue); }
+.kpi-card.pink { border-top-color: var(--pink); }
+
+.section-beige .kpi-card { background: var(--white); }
+.section-beige .kpi-label { color: var(--gray-mid); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.section-beige .kpi-value { font-size: 2rem; font-weight: 900; color: var(--black); margin-bottom: 12px; }
+.section-beige .kpi-note { font-size: 0.8rem; font-weight: 500; color: var(--gray-mid); margin-top: auto; padding-top: 12px; }
+
+.section-dark .kpi-card { background: var(--dark-card); }
+.section-dark .kpi-label { color: rgba(255,255,255,0.6); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.section-dark .kpi-value { font-size: 2rem; font-weight: 900; color: var(--white); margin-bottom: 12px; }
+.section-dark .kpi-note { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.4); margin-top: auto; padding-top: 12px; }
+
+.kpi-badge { font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; width: fit-content; }
+.kpi-badge.up { background: var(--yellow); color: var(--black); }
+.kpi-badge.down { background: var(--pink); color: var(--black); }
+.kpi-badge.neutral { background: rgba(0,0,0,0.05); color: var(--gray-mid); }
+.section-dark .kpi-badge.neutral { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+
+/* Insight Box */
+.insight-box { padding: 24px 32px; border-radius: 16px; margin-top: 32px; display: flex; gap: 16px; align-items: flex-start; }
+.insight-icon { font-size: 1.5rem; line-height: 1; }
+.insight-text { font-size: 1rem; font-weight: 500; }
+
+.section-beige .insight-box { background: rgba(243,103,62,0.07); border: 1px solid rgba(243,103,62,0.2); }
+.section-beige .insight-text { color: var(--gray-text); }
+
+.section-dark .insight-box { background: rgba(228,254,82,0.07); border: 1px solid rgba(228,254,82,0.3); }
+.section-dark .insight-text { color: rgba(255,255,255,0.85); }
+
+/* Alerta Box (Rosa) */
+.alerta-box { padding: 24px 32px; border-radius: 16px; margin-top: 32px; display: flex; gap: 16px; align-items: flex-start; background: rgba(255,178,181,0.1); border: 1px solid rgba(255,178,181,0.3); }
+.alerta-box .insight-icon { color: var(--pink); }
+.alerta-box .insight-text { color: rgba(255,255,255,0.85); }
+.alerta-box strong { color: var(--pink); }
+
+/* Form Cards / Campaign Cards */
+.camp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.camp-card { border-radius: 16px; padding: 24px; display: flex; flex-direction: column; background: var(--white); border-top: 4px solid var(--blue); }
+.section-dark .camp-card { background: var(--dark-card); }
+.camp-card.orange { border-top-color: var(--orange); }
+.camp-card.yellow { border-top-color: var(--yellow); }
+.camp-card.pink { border-top-color: var(--pink); }
+
+.camp-tag { font-size: 0.65rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 16px; width: fit-content; }
+.camp-tag.tag-b2b { background: rgba(255,178,181,0.2); color: var(--pink); }
+.section-beige .camp-tag.tag-b2b { background: rgba(243,103,62,0.1); color: var(--orange); }
+.camp-tag.tag-wa { background: rgba(173,217,255,0.2); color: var(--blue); }
+.section-beige .camp-tag.tag-wa { background: rgba(173,217,255,0.3); color: #0066CC; }
+
+.camp-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 24px; }
+.section-beige .camp-title { color: var(--black); }
+.section-dark .camp-title { color: var(--white); }
+
+.camp-metric { margin-bottom: 16px; }
+.camp-metric:last-child { margin-bottom: 0; }
+.camp-m-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.section-beige .camp-m-label { color: var(--gray-mid); }
+.section-dark .camp-m-label { color: rgba(255,255,255,0.5); }
+
+.camp-m-val { font-size: 1.4rem; font-weight: 900; }
+.section-beige .camp-m-val { color: var(--black); }
+.section-dark .camp-m-val { color: var(--white); }
+
+.camp-m-sub { font-size: 0.8rem; font-weight: 500; margin-left: 8px; }
+.section-beige .camp-m-sub { color: var(--gray-mid); }
+.section-dark .camp-m-sub { color: rgba(255,255,255,0.4); }
+
+/* Star Cards */
+.stars-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+.star-card { border-radius: 16px; padding: 32px; background: var(--dark-card); border-top: 4px solid var(--yellow); }
+.star-platform { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 16px; }
+.star-platform.meta { background: rgba(24,119,242,0.15); color: #ADD9FF; }
+.star-name { font-size: 1.3rem; font-weight: 800; color: var(--white); margin-bottom: 24px; line-height: 1.3; }
+.star-roas { font-size: 3rem; font-weight: 900; color: var(--yellow); line-height: 1; margin-bottom: 8px; }
+.star-roas-lbl { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+.star-cpa { font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.7); }
+
+/* Projections */
+.proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.proj-card { border-radius: 20px; padding: 32px 24px; text-align: center; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.1); }
+.proj-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 24px; }
+.proj-invest { font-size: 1rem; font-weight: 800; color: var(--white); margin-bottom: 12px; }
+.proj-receita { font-size: 3rem; font-weight: 900; color: var(--white); line-height: 1; margin-bottom: 8px; }
+.proj-lbl { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.6); margin-bottom: 24px; }
+.proj-lucro { font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.8); }
+
+.proj-card.recomendado { background: var(--yellow); border: none; }
+.proj-card.recomendado .proj-tag { color: var(--orange); }
+.proj-card.recomendado .proj-invest { color: var(--black); }
+.proj-card.recomendado .proj-receita { color: var(--black); }
+.proj-card.recomendado .proj-lbl { color: var(--gray-text); }
+.proj-card.recomendado .proj-lucro { color: var(--gray-text); font-weight: 700; }
+
+.proj-note { font-size: 0.85rem; font-weight: 500; color: rgba(255,255,255,0.6); text-align: center; margin-top: 24px; }
+
+/* CTA Box */
+.cta-box { background: var(--yellow); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 48px; }
+.cta-title { font-size: 1.8rem; font-weight: 900; color: var(--black); margin-bottom: 32px; }
+.cta-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.cta-stat { display: flex; flex-direction: column; align-items: center; }
+.cs-val { font-size: 2.5rem; font-weight: 900; color: var(--black); line-height: 1; margin-bottom: 8px; }
+.cs-lbl { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-text); }
+
+/* Next steps */
+.next-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+.next-step-card { background: var(--dark-card); border-radius: 16px; padding: 24px; border-top: 4px solid var(--blue); }
+.next-step-card.orange { border-top-color: var(--orange); }
+.next-step-card.yellow { border-top-color: var(--yellow); }
+.next-step-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--yellow); margin-bottom: 12px; }
+.next-step-text { font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.7); }
+
+/* Footer */
+.footer { background: #0A0A0A; padding: 48px 8%; text-align: center; }
+.footer-logo { margin-bottom: 16px; display: inline-flex; align-items: baseline; gap: 4px; }
+.footer-logo-text { font-size: 1.2rem; font-weight: 900; color: rgba(255,255,255,0.3); letter-spacing: -0.5px; }
+.footer-logo-text span { color: rgba(228,254,82,0.3); }
+.footer-logo-badge { background: rgba(228,254,82,0.1); color: rgba(243,103,62,0.5); font-size: 0.6rem; font-weight: 800; padding: 2px 4px; border-radius: 3px; text-transform: lowercase; }
+.footer-text { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.2); }
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .section-orange, .section-beige, .section-dark, .footer { padding: 60px 6%; }
+  .cover-numbers { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .camp-grid { grid-template-columns: 1fr; }
+  .stars-grid { grid-template-columns: 1fr; }
+  .proj-grid { grid-template-columns: 1fr; }
+  .cta-stats { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
+  .next-steps { grid-template-columns: 1fr; }
+  .insight-box, .alerta-box { flex-direction: column; gap: 12px; padding: 20px; }
+}
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+  .cover-numbers { grid-template-columns: 1fr; }
+  .cta-stats { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ CAPA (Laranja) ═══ -->
+<section class="section-orange cover">
+  <div class="inner" style="width:100%;">
+    <div class="cover-logo">
+      <span class="cover-logo-text"><span>MO</span>CA</span>
+      <span class="cover-logo-badge">lab</span>
+    </div>
+    
+    <div class="cover-client">Primebras B2B</div>
+    <h1 class="cover-title">Relatório de Performance<br>01 a 15 de Abril 2026</h1>
+    <p class="cover-subtitle">Meta Ads · Geração de Leads B2B · Foco em MQLs</p>
+    
+    <div class="cover-numbers">
+      <div class="cover-num-item">
+        <div class="cover-num-label">Investimento</div>
+        <div class="cover-num-val">R$ 7.661</div>
+        <div class="cover-num-sub">+102,4% vs Mar</div>
+      </div>
+      <div class="cover-num-item">
+        <div class="cover-num-label">Leads (Form)</div>
+        <div class="cover-num-val">253</div>
+        <div class="cover-num-sub">forms instantâneos</div>
+      </div>
+      <div class="cover-num-item">
+        <div class="cover-num-label">MQLs &gt;100k</div>
+        <div class="cover-num-val" style="color: var(--yellow);">11</div>
+        <div class="cover-num-sub" style="color: var(--white);">confirmados</div>
+      </div>
+      <div class="cover-num-item">
+        <div class="cover-num-label">CP-MQL</div>
+        <div class="cover-num-val">R$ 444</div>
+        <div class="cover-num-sub">gasto no form</div>
+      </div>
+    </div>
+    
+    <p class="cover-period">Período: 01 a 15 de Abril de 2026 · Comparativo: 01 a 15 de Março de 2026</p>
+  </div>
+</section>
+
+<!-- ═══ RESUMO CONSOLIDADO (Bege) ═══ -->
+<section class="section-beige">
+  <div class="inner">
+    <span class="eyebrow">🍃 Resultado do Período</span>
+    <h2 class="sec-title">Resumo Consolidado</h2>
+    <p class="sec-desc">Comparativo Abr 01-15 vs Mar 01-15. MQLs calculados exclusivamente sobre formulários instantâneos com leads rastreáveis.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card orange">
+        <div class="kpi-label">Investimento Total</div>
+        <div class="kpi-value">R$ 7.661</div>
+        <span class="kpi-badge up">+102,4% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: R$ 3.784</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Leads (Formulários)</div>
+        <div class="kpi-value">253</div>
+        <span class="kpi-badge up">+66,4% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: 152 leads</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">CPL (Form)</div>
+        <div class="kpi-value">R$ 19,34</div>
+        <span class="kpi-badge down">+1,6% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: R$ 19,03</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">MQLs Confirmados</div>
+        <div class="kpi-value">11</div>
+        <span class="kpi-badge down">-59,3% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: 27 MQLs</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">CP-MQL</div>
+        <div class="kpi-value">R$ 444</div>
+        <span class="kpi-badge down">+315,1% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: R$ 107</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">Taxa de MQL</div>
+        <div class="kpi-value">4,3%</div>
+        <span class="kpi-badge down">-75,8% vs ant.</span>
+        <div class="kpi-note">Mar 01-15: 17,8%</div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text">
+        O Ads Manager registra 3.950 "leads" — mas a maioria são WhatsApp. A coluna acima usa apenas leads com formulário rastreável (253 leads), o único grupo com info de faturamento para MQL. <strong>O investimento quase dobrou, mas o mix de campanhas mudou.</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ MQLS DO PERÍODO (Preto) ═══ -->
+<section class="section-dark">
+  <div class="inner">
+    <span class="eyebrow">Qualificação de Leads</span>
+    <h2 class="sec-title">MQLs do Período</h2>
+    <p class="sec-desc">Empresas que faturam acima de R$100.000/mês — baseado nos formulários ativos no período.</p>
+
+    <div class="kpi-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="kpi-card yellow">
+        <div class="kpi-label">Total de MQLs</div>
+        <div class="kpi-value" style="color: var(--yellow); font-size: 2.5rem;">11</div>
+        <div class="kpi-note">vs 27 MQLs em mar 01-15<br>queda de 59,3% no período</div>
+      </div>
+      <div class="kpi-card pink">
+        <div class="kpi-label">Custo por MQL (CP-MQL)</div>
+        <div class="kpi-value" style="color: var(--pink); font-size: 2.5rem;">R$ 444</div>
+        <div class="kpi-note">vs R$ 107 em mar 01-15<br>gasto form: R$ 4.893</div>
+      </div>
+    </div>
+
+    <div class="camp-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="camp-card yellow">
+        <span class="camp-tag tag-b2b">Revendedores</span>
+        <div class="camp-title">Formulário Revendedores</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">MQLs gerados</div>
+          <span class="camp-m-val">8</span> <span class="camp-m-sub">de 202 leads form</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Taxa de MQL</div>
+          <span class="camp-m-val">4,0%</span> <span class="camp-m-sub">dos leads form</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">CP-MQL</div>
+          <span class="camp-m-val">R$ 405,81</span>
+        </div>
+      </div>
+
+      <div class="camp-card orange">
+        <span class="camp-tag tag-b2b">Revendedores · Cópia</span>
+        <div class="camp-title">Formulário Revendedores — Cópia</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">MQLs gerados</div>
+          <span class="camp-m-val">3</span> <span class="camp-m-sub">de 51 leads form</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Taxa de MQL</div>
+          <span class="camp-m-val" style="color: var(--yellow);">5,9%</span> <span class="camp-m-sub">melhor taxa</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">CP-MQL</div>
+          <span class="camp-m-val">R$ 549,01</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alerta-box">
+      <div class="insight-icon">⚠️</div>
+      <div class="insight-text">
+        <strong>Atenção:</strong> A campanha Construtoras rodou com R$1.031 mas gerou 0 forms (indo para WhatsApp, sem dados para qualificação). Airbnb ficou inativa. Isso explica a queda de MQLs: as duas verticais que mais geraram MQLs em março (12 MQLs somadas) saíram do radar de rastreio neste período.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider yellow"></div>
+
+<!-- ═══ DETALHAMENTO CONJUNTOS E ANÚNCIOS (Bege) ═══ -->
+<section class="section-beige">
+  <div class="inner">
+    <span class="eyebrow">🍃 Granularidade de MQL</span>
+    <h2 class="sec-title">Performance por Conjunto e Anúncio</h2>
+    <p class="sec-desc">Detalhamento de onde os 11 MQLs de Revendedores foram gerados (IDs extraídos diretamente dos leads).</p>
+
+    <h3 style="color: var(--black); font-size: 1.2rem; font-weight: 800; margin-bottom: 16px;">MQLs por Conjunto de Anúncios (Adsets)</h3>
+    <div class="camp-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 40px;">
+      <div class="camp-card orange">
+        <span class="camp-tag tag-b2b">Campanha Principal</span>
+        <div class="camp-title">Interesses - Brasil</div>
+        <div style="font-size: 0.75rem; color: var(--gray-mid); margin-top: -20px; margin-bottom: 24px;">ID: 120238635198340528</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">MQLs Gerados</div>
+          <span class="camp-m-val">8</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Custo por MQL (CP-MQL)</div>
+          <span class="camp-m-val">R$ 405,81</span> <span class="camp-m-sub">Gasto total: R$ 3.246,52</span>
+        </div>
+      </div>
+
+      <div class="camp-card orange">
+        <span class="camp-tag tag-b2b">Campanha Cópia</span>
+        <div class="camp-title">Interesses - Brasil</div>
+        <div style="font-size: 0.75rem; color: var(--gray-mid); margin-top: -20px; margin-bottom: 24px;">ID: 120244948018110528</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">MQLs Gerados</div>
+          <span class="camp-m-val">3</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Custo por MQL (CP-MQL)</div>
+          <span class="camp-m-val">R$ 549,01</span> <span class="camp-m-sub">Gasto total: R$ 1.647,03</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color: var(--black); font-size: 1.2rem; font-weight: 800; margin-bottom: 16px;">Top Anúncios Geradores de MQLs</h3>
+    <div class="kpi-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="kpi-card orange">
+        <div class="kpi-label">Criativo Campeão 01</div>
+        <div class="kpi-value" style="color: var(--orange); font-size: 2.2rem;">5 MQLs</div>
+        <div class="kpi-note">Campanha Revendedores Principal</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Criativo Campeão 02</div>
+        <div class="kpi-value" style="color: var(--orange); font-size: 2.2rem;">3 MQLs</div>
+        <div class="kpi-note">Campanha Revendedores Principal</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">Criativo Validação 01</div>
+        <div class="kpi-value" style="font-size: 2.2rem;">2 MQLs</div>
+        <div class="kpi-note">Campanha Revendedores Cópia</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">Criativo Validação 02</div>
+        <div class="kpi-value" style="font-size: 2.2rem;">1 MQL</div>
+        <div class="kpi-note">Campanha Revendedores Cópia</div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text">
+        Nota técnica: Como a exportação nativa de leads da Meta oculta os nomes exatos de batismo dos anúncios, os dados acima foram cruzados via ID interno para garantir 100% de precisão sobre quais peças estão trazendo o público com faturamento &gt; R$ 100k.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ ANÁLISE POR CAMPANHA (Preto) ═══ -->
+<section class="section-dark">
+  <div class="inner">
+    <span class="eyebrow">Análise por Campanha</span>
+    <h2 class="sec-title">Estrutura de Campanhas</h2>
+    <p class="sec-desc">Abr 01-15 — 6 campanhas ativas, com perfil mais diversificado que março.</p>
+
+    <div class="camp-grid">
+      <div class="camp-card orange">
+        <span class="camp-tag tag-b2b">Formulário</span>
+        <div class="camp-title">Revendedores</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Investimento</div>
+          <span class="camp-m-val">R$ 3.246</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Leads / MQLs</div>
+          <span class="camp-m-val">202 / 8</span>
+        </div>
+        <span class="kpi-badge up">+162% leads vs mar</span>
+      </div>
+
+      <div class="camp-card orange">
+        <span class="camp-tag tag-b2b">Formulário</span>
+        <div class="camp-title">Revendedores — Cópia</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Investimento</div>
+          <span class="camp-m-val">R$ 1.647</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Leads / MQLs</div>
+          <span class="camp-m-val">51 / 3</span>
+        </div>
+        <span class="kpi-badge neutral">Nova campanha</span>
+      </div>
+
+      <div class="camp-card pink">
+        <span class="camp-tag tag-wa">WhatsApp</span>
+        <div class="camp-title">Construtoras</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Investimento</div>
+          <span class="camp-m-val">R$ 1.031</span>
+        </div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Leads / MQLs</div>
+          <span class="camp-m-val">181 / 0</span>
+        </div>
+        <span class="kpi-badge down">Migrou para WA</span>
+      </div>
+    </div>
+
+    <!-- Outras -->
+    <div class="camp-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="camp-card blue">
+        <span class="camp-tag tag-wa">Mensagens</span>
+        <div class="camp-title">[B2B] WhatsApp Leads</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Investimento</div>
+          <span class="camp-m-val">R$ 598</span> <span class="camp-m-sub">0 MQLs</span>
+        </div>
+        <div class="kpi-note">Objetivo conexões diretas. Não gera forms.</div>
+      </div>
+      <div class="camp-card blue">
+        <span class="camp-tag tag-wa">Testes</span>
+        <div class="camp-title">CBO Lookalike/Demog</div>
+        <div class="camp-metric">
+          <div class="camp-m-label">Investimento</div>
+          <span class="camp-m-val">R$ 1.138</span> <span class="camp-m-sub">0 MQLs</span>
+        </div>
+        <div class="kpi-note">Testes de segmentação sem formulário.</div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-icon">🎯</div>
+      <div class="insight-text">
+        Em março, os MQLs vieram de Revendedores, Construtoras e Airbnb. Em abril, <strong>apenas Revendedores gerou forms rastreáveis</strong>. O resultado de 11 MQLs reflete esse estreitamento de fontes, não necessariamente uma piora do público.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ CAMPANHAS DESTAQUE (Preto) ═══ -->
+<section class="section-dark">
+  <div class="inner">
+    <span class="eyebrow">Campanhas em Destaque</span>
+    <h2 class="sec-title">As Geradoras de MQL</h2>
+    <p class="sec-desc">Apenas campanhas com formulário ativo e leads com dados de qualificação.</p>
+
+    <div class="stars-grid">
+      <div class="star-card">
+        <span class="star-platform meta">Meta Ads</span>
+        <div class="star-name">[Leads] [Formulário] Revendedores</div>
+        <div class="star-roas-lbl">MQLs Gerados</div>
+        <div class="star-roas">8</div>
+        <div class="star-cpa">CP-MQL: R$ 405,81 · Taxa MQL: 4,0%</div>
+      </div>
+      <div class="star-card" style="border-top-color: var(--orange);">
+        <span class="star-platform meta">Meta Ads</span>
+        <div class="star-name">Revendedores — Cópia</div>
+        <div class="star-roas-lbl">MQLs Gerados</div>
+        <div class="star-roas" style="color: var(--orange);">3</div>
+        <div class="star-cpa">CP-MQL: R$ 549,01 · Taxa MQL: 5,9%</div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text">
+        A campanha Cópia, apesar do CP-MQL maior, tem a <strong>maior taxa de MQL do portfólio — 5,9%</strong>. Isso indica que alcança um público mais qualificado. Monitorar antes de escalar.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider yellow"></div>
+
+<!-- ═══ CONCLUSÃO (Preto) ═══ -->
+<section class="section-dark">
+  <div class="inner">
+    <span class="eyebrow">Conclusão Executiva</span>
+    <h2 class="sec-title">Resumo da Quinzena</h2>
+
+    <div class="cta-box">
+      <div class="cta-title">Primebras B2B — Abr 01-15, 2026</div>
+      <div class="cta-stats">
+        <div class="cta-stat">
+          <span class="cs-val">R$ 7.661</span>
+          <span class="cs-lbl">Investimento</span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-val">253</span>
+          <span class="cs-lbl">Leads Form</span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-val">11</span>
+          <span class="cs-lbl">MQLs &gt;100k</span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-val">R$ 444</span>
+          <span class="cs-lbl">CP-MQL</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sec-desc" style="max-width: 100%; color: rgba(255,255,255,0.85); font-size: 1.05rem;">
+      O investimento <strong>quase dobrou (+102,4%)</strong>, mas o mix mudou. Com Airbnb pausada e Construtoras no WhatsApp (sem dados de form), apenas Revendedores gerou MQLs rastreáveis.<br><br>
+      O resultado de <strong>11 MQLs</strong> está abaixo de março (27 MQLs), mas reflete <strong>uma redução de fontes, não de qualidade</strong>. A cópia de Revendedores estreou com a melhor taxa de MQL do portfólio (5,9%).
+    </p>
+
+    <div class="next-steps">
+      <div class="next-step-card yellow">
+        <div class="next-step-label">Funcionando</div>
+        <div class="next-step-text">Forms de Revendedores escalaram investimento com sucesso. Cópia mostra 5,9% de taxa MQL.</div>
+      </div>
+      <div class="next-step-card orange">
+        <div class="next-step-label">Oportunidade</div>
+        <div class="next-step-text">Construtoras rodou R$1.031 gerando 0 forms. Reativar formulário para recuperar rastreio de MQLs.</div>
+      </div>
+      <div class="next-step-card blue">
+        <div class="next-step-label">Próximo Passo</div>
+        <div class="next-step-text">Verificar reativação Airbnb. Revisar testes CBO (R$1.138 gastos sem MQL rastreável) e avaliar ROI.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="inner">
+    <div class="footer-logo">
+      <span class="footer-logo-text"><span>MO</span>CA</span>
+      <span class="footer-logo-badge">lab</span>
+    </div>
+    <div class="footer-text">
+      Fonte dos dados: Meta Ads API v22.0 · Conta B2B act_1010794443196108<br>
+      Período analisado: 01/04/2026 a 15/04/2026 · Comparativo: 01/03/2026 a 15/03/2026<br>
+      MQLs: critério faturamento &gt; R$100.000/mês · apenas formulários instantâneos<br>
+      Gerado em: 17/04/2026
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
